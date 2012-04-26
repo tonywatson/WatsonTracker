@@ -3,7 +3,6 @@ class SessionsController < ApplicationController
   def new
     @page_title = "Account Login"
     @user_session = UserSession.new
-    redirect_to tasks_path unless @user_session.blank?
   end
 
   def create
