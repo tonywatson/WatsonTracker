@@ -3,7 +3,7 @@ class CreateTasks < ActiveRecord::Migration
     create_table :tasks do |t|
       t.belongs_to :user
       t.string     :title, :current_state
-      t.text       :description
+      t.text       :description, :prereqs
       t.timestamps
     end
   end

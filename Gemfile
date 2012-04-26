@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'authlogic'
+gem 'formtastic'
 gem 'haml'
 gem 'jquery-rails'
 gem 'mysql2'

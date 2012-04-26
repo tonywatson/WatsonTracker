@@ -3,7 +3,9 @@ class Task < ActiveRecord::Base
   
   belongs_to :user
   
-  has_many :prerequisites
+  has_many :prerequisites, :dependent => :destroy
+  
+  accepts_nested_attributes_for :prerequisites
   
   def next_state
     case current_state

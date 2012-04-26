@@ -24,8 +24,8 @@ ActiveRecord::Schema.define(:version => 20120426173704) do
     t.integer  "user_id"
     t.string   "title"
     t.string   "current_state"
+    t.string   "prereqs"
     t.text     "description"
-    t.text     "prerequisites"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
   end

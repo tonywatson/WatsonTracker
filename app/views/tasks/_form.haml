@@ -1,19 +1,31 @@
-= form_for @task do |f|
-  = render '/partials/error_messages', :object => @task, :as => :object
-  .field
-    Title
-    %br
-    = f.text_field :title
-  .field
-    Description
-    %br
-    = f.text_area :description
-  - unless @tasks.count == 0
-    .field
-      Prerequisites
-      - @tasks.each do |task|
-        %li
-          = check_box_tag 'task_ids[]', task.id, @task.prerequisites.where("prereq = ?", task.id) ? true : false
-          = task.title
-  .actions
-    = f.submit
+/ = form_for @task do |f|
+/   = render '/partials/error_messages', :object => @task, :as => :object
+/   .field
+/     Title
+/     %br
+/     = f.text_field :title
+/   .field
+/     Description
+/     %br
+/     = f.text_area :description, :rows => 10
+/   - unless @tasks.count == 0
+/     .field
+/       Prerequisites
+/       - f.fields_for :prerequisites do |builder|
+/         = render 'prerequisite_fields', :f => builder
+/         
+/       = link_to_add_fields "Add Prerequisite", f, :prerequisites
+/       / - @tasks.each do |task|
+/       /   %li
+/       /     = check_box_tag 'task_ids[]', task.id, @task.prereqs.include?(task.id)
+/       /     / , @task.prerequisites.where("prereq = ?", task.id) ? true : false
+/       /     = task.title
+/   .actions
+/     = f.submit
+
+= semantic_form_for @task do |f|
+  = f.inputs do
+    = f.input :title
+    = f.input :description
+    = f.input :prerequisites
+  = f.actions

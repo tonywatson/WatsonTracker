@@ -40,12 +40,15 @@ class TasksController < ApplicationController
   def create
     @task = @current_user.tasks.new(params[:task])
     @task.current_state = "Not Yet Started"
+    @task.prereqs = params[:task_ids]
     
     respond_to do |format|
       if @task.save
+        
         params[:task_ids].each do |prereq|
           @task.prerequisites.create(:prereq => prereq)
-        end
+        end unless params[:task_ids].nil?
+        
         format.html { redirect_to tasks_path, notice: 'Task was successfully created.' }
       else
         format.html { render action: "new" }
@@ -62,9 +65,9 @@ class TasksController < ApplicationController
     # end
     
     if params[:task_ids].nil? 
-      @task.prerequisites = nil 
+      @task.prereqs = nil 
     else
-      @task.prerequisites = params[:task_ids]
+      @task.prereqs = params[:task_ids]
     end
 
     respond_to do |format|
