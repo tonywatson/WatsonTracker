@@ -8,9 +8,12 @@
     Description
     %br
     = f.text_area :description
-  .field
-    Prerequisites
-    / %br
-    / = f.text_field :prerequisites
+  - unless @tasks.count == 0
+    .field
+      Prerequisites
+      - @tasks.each do |task|
+        %li
+          = check_box_tag 'task_ids[]', task.id
+          = task.title
   .actions
     = f.submit

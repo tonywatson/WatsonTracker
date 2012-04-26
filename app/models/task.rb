@@ -1,7 +1,8 @@
 class Task < ActiveRecord::Base
-  attr_accessible :title, :description, :current_state, :prerequisites
+  attr_accessible :title, :description, :current_state
   
   belongs_to :user
   
-  serialize :prerequisites, Hash
+  has_many :prerequisites
+  
 end

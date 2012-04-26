@@ -11,7 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120426135547) do
+ActiveRecord::Schema.define(:version => 20120426173704) do
+
+  create_table "prerequisites", :force => true do |t|
+    t.integer  "task_id"
+    t.integer  "prereq"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "tasks", :force => true do |t|
     t.integer  "user_id"

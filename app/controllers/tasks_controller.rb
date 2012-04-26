@@ -15,19 +15,14 @@ class TasksController < ApplicationController
     end
   end
 
-  # GET /tasks/new
-  # GET /tasks/new.json
   def new
     @task = Task.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @task }
-    end
+    @tasks = @current_user.tasks
   end
 
   def edit
     @task = Task.find(params[:id])
+    @tasks = @current_user.tasks.where("id != ?", @task.id)
   end
 
   def create
@@ -35,6 +30,9 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       if @task.save
+        params[:task_ids].each do |prereq|
+          @task.prerequisites.create(:prereq, prereq)
+        end
         format.html { redirect_to tasks_path, notice: 'Task was successfully created.' }
       else
         format.html { render action: "new" }
@@ -42,31 +40,28 @@ class TasksController < ApplicationController
     end
   end
 
-  # PUT /tasks/1
-  # PUT /tasks/1.json
   def update
     @task = Task.find(params[:id])
+    @task.prerequisites = params[:task_ids]
 
     respond_to do |format|
       if @task.update_attributes(params[:task])
+        params[:task][:task_ids].each do |prereq|
+          @task.prerequisites.create(:prereq, prereq)
+        end
         format.html { redirect_to @task, notice: 'Task was successfully updated.' }
-        format.json { head :no_content }
       else
         format.html { render action: "edit" }
-        format.json { render json: @task.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /tasks/1
-  # DELETE /tasks/1.json
   def destroy
     @task = Task.find(params[:id])
     @task.destroy
 
     respond_to do |format|
       format.html { redirect_to tasks_url }
-      format.json { head :no_content }
     end
   end
 end
