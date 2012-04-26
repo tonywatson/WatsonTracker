@@ -3,13 +3,23 @@
   
 %p Here are your current tasks:
 
-- @tasks.each do |task|
+- @tasks.order("created_at DESC").each do |task|
   .task
     %b= task.title
+    %i= "(#{task.current_state})"
+    = link_to "Mark task as #{task.next_state}", "/new_state/#{task.id}" unless task.current_state == "Completed"
     %br= truncate(task.description, :length => 25)
+    
+    - unless task.prerequisites.count == 0
+      Prerequisites:
+      %ul
+        - task.prerequisites.each do |prereqs|
+          %li= Task.find(prereqs.prereq).title
+        
+    Tasked at: #{task.created_at}
     .actions
-      = link_to 'Show', task
-      = link_to 'Edit', edit_task_path(task)
+      = link_to 'Show Task Details', task
+      = link_to 'Edit Task', edit_task_path(task)
       = link_to 'Destroy', task, confirm: 'Are you sure?', method: :delete
   %br
 %br

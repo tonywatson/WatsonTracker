@@ -5,7 +5,24 @@ class TasksController < ApplicationController
   def index
     @tasks = @current_user.tasks
   end
-
+  
+  def new
+    @task = Task.new
+    @tasks = @current_user.tasks
+  end
+  
+  def new_state
+    @task = Task.find(params[:id])
+    new_state = case @task.current_state
+    when 'Not Yet Started'
+      'Started'
+    when 'Started'
+      'Completed'
+    end
+    @task.update_attribute(:current_state, new_state)
+    redirect_to tasks_path
+  end
+  
   def show
     @task = Task.find(params[:id])
 
@@ -15,11 +32,6 @@ class TasksController < ApplicationController
     end
   end
 
-  def new
-    @task = Task.new
-    @tasks = @current_user.tasks
-  end
-
   def edit
     @task = Task.find(params[:id])
     @tasks = @current_user.tasks.where("id != ?", @task.id)
@@ -27,11 +39,12 @@ class TasksController < ApplicationController
 
   def create
     @task = @current_user.tasks.new(params[:task])
-
+    @task.current_state = "Not Yet Started"
+    
     respond_to do |format|
       if @task.save
         params[:task_ids].each do |prereq|
-          @task.prerequisites.create(:prereq, prereq)
+          @task.prerequisites.create(:prereq => prereq)
         end
         format.html { redirect_to tasks_path, notice: 'Task was successfully created.' }
       else
@@ -42,13 +55,23 @@ class TasksController < ApplicationController
 
   def update
     @task = Task.find(params[:id])
-    @task.prerequisites = params[:task_ids]
+    # if params[:task_ids].nil? && @task.prerequisites > 0
+    #   @task.remove_prerequisites
+    # else
+    #   @task.prerequisites = params[:task_ids]
+    # end
+    
+    if params[:task_ids].nil? 
+      @task.prerequisites = nil 
+    else
+      @task.prerequisites = params[:task_ids]
+    end
 
     respond_to do |format|
       if @task.update_attributes(params[:task])
-        params[:task][:task_ids].each do |prereq|
-          @task.prerequisites.create(:prereq, prereq)
-        end
+        # params[:task][:task_ids].each do |prereq|
+        #           @task.prerequisites.create(:prereq, prereq)
+        #         end
         format.html { redirect_to @task, notice: 'Task was successfully updated.' }
       else
         format.html { render action: "edit" }

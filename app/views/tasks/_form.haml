@@ -13,7 +13,7 @@
       Prerequisites
       - @tasks.each do |task|
         %li
-          = check_box_tag 'task_ids[]', task.id
+          = check_box_tag 'task_ids[]', task.id, @task.prerequisites.where("prereq = ?", task.id) ? true : false
           = task.title
   .actions
     = f.submit

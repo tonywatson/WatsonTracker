@@ -12,9 +12,22 @@
  *= require_tree .
 */
 
+body,div,dl,dt,dd,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,blockquote,th,td,img {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	margin: 10px;
+}
+
 .task {
 	border: 1px solid #333;
 	display: inline-block;
 	margin: 5px 0;
 	padding: 10px;
+}
+
+ul {
+	margin-top: 0px;
 }
