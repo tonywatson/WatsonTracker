@@ -3,3 +3,9 @@
 A simple bug tracker with one step account creation. Currently, it has the ability to add multiple tasks, create prerequisites for each and can easily change the status.
 
 Runs on Thin and uses Authlogic for authentication, minus a custom password validation that requires the password to be at least 6 characters, and have the same amount of vowels as consonants.
+
+== Next Steps
+
+1. Finish user-friendliness features for adding/updating prerequisites
+2. Create logic to display tasks in a tree format based on prerequisites
+3. Use some CSS magic to make everything look pretty and further improve user-friendliness
