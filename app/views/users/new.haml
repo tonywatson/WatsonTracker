@@ -1,0 +1,17 @@
+%h1 New User
+
+= render '/partials/error_messages', :object => @user, :as => :object
+
+= form_for @user do |f|
+  .field
+    Email
+    %br
+    = f.text_field :email_address    
+  .field
+    Password
+    %br
+    = f.text_field :password
+  .small
+    By clicking sign up you are confirming your password is correct.
+  .field
+    = f.submit 'sign up'

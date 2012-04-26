@@ -1,0 +1,6 @@
+- if object.errors.size > 0
+  .flash.errors
+    %strong There were errors with your submission:
+    %ul
+      - object.errors.full_messages.each do |error|
+        %li= error

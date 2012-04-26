@@ -1,0 +1,17 @@
+%h1 Login
+
+= render '/partials/error_messages', :object => @user_session, :as => :object
+
+= form_for @user_session, :url => session_path do |f|
+  .field
+    Email
+    %br
+    = f.text_field :email_address    
+  .field
+    Password
+    %br
+    = f.password_field :password
+  .field
+    = f.submit 'login'
+    or 
+    = link_to 'sign up', new_user_path

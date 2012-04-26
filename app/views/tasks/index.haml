@@ -1,0 +1,17 @@
+#notice
+  = notice
+  
+%p Here are your current tasks:
+
+- @tasks.each do |task|
+  .task
+    %b= task.title
+    %br= truncate(task.description, :length => 25)
+    .actions
+      = link_to 'Show', task
+      = link_to 'Edit', edit_task_path(task)
+      = link_to 'Destroy', task, confirm: 'Are you sure?', method: :delete
+  %br
+%br
+
+= link_to 'New Task', new_task_path

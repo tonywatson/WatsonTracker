@@ -1,0 +1,16 @@
+= form_for @task do |f|
+  = render '/partials/error_messages', :object => @task, :as => :object
+  .field
+    Title
+    %br
+    = f.text_field :title
+  .field
+    Description
+    %br
+    = f.text_area :description
+  .field
+    Prerequisites
+    / %br
+    / = f.text_field :prerequisites
+  .actions
+    = f.submit
